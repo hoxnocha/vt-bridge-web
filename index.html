@@ -3,22 +3,520 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>VT-Bridge — Coming soon</title>
-  <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; color: #252525; background: #fff; font-family: Arial, Helvetica, sans-serif; }
-    main { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 48px 24px; text-align: center; }
-    .name { margin: 0 0 20px; font-size: 19px; font-weight: 600; }
-    h1 { margin: 0; font-size: clamp(40px, 8vw, 64px); line-height: 1.15; font-weight: 600; letter-spacing: -0.035em; }
-    .description { margin: 24px 0 0; color: #666; font-size: 17px; line-height: 1.65; }
-  </style>
+  <meta name="description" content="VT-Bridge is a lightweight residual adaptation strategy that bridges pretrained foundation VLAs to VTLAs for contact-rich manipulation.">
+  <meta name="robots" content="noindex">
+  <title>VT-Bridge: Bridging Pretrained Foundation VLAs to VTLAs via Lightweight Residual Adaptation</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="video-data.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <main>
-    <p class="name">VT-Bridge</p>
-    <h1>Coming soon</h1>
-    <p class="description">The project page will be available soon.</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="site-nav" aria-label="Page sections">
+    <a class="nav-wordmark" href="#main" aria-label="VT-Bridge, back to top"><span class="title-vision">V</span><span class="title-tactile">T</span>-Bridge<span class="brand-dot" aria-hidden="true"></span></a>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#key-advantages">Advantages</a>
+      <a href="#method">Methods</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#analysis">Ablations</a>
+    </div>
+  </nav>
+  <main id="main">
+    <header class="paper-header reading-width">
+      <p class="hero-eyebrow"><span>Vision</span><span>Tactile</span><span>Language</span><span>Action</span></p>
+      <h1 class="paper-title">
+        <span class="paper-title-name"><span class="title-vision">V</span><span class="title-tactile">T</span>-Bridge<span class="visually-hidden">:</span></span>
+        <span class="paper-title-description">Bridging Pretrained Foundation <span class="title-vision">V</span>LAs to <span class="title-vision">V</span><span class="title-tactile">T</span>LAs via Lightweight Residual Adaptation</span>
+      </h1>
+      <p class="authors">Anonymous</p>
+      <div class="paper-links" aria-label="Paper resources">
+        <a class="resource-link" href="assets/VT_Bridge.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"/></svg>Paper</a>
+        <button id="code-button" class="resource-link" type="button" aria-describedby="resource-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/></svg>Code</button>
+        <a class="resource-link" href="#experiment-videos"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/></svg>Video</a>
+      </div>
+      <p id="resource-note" class="resource-note" role="status" aria-live="polite"></p>
+    </header>
+
+    <div class="presentation-video media-width">
+      <iframe src="https://www.youtube-nocookie.com/embed/cYcKZKXVA_M" title="VT-Bridge project video" width="960" height="540" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <p class="video-external-link"><a href="https://www.youtube.com/watch?v=cYcKZKXVA_M" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a></p>
+    </div>
+
+    <section id="abstract" class="paper-section reading-width">
+      <h2>Abstract</h2>
+      <div class="prose">
+        <p>Vision-Tactile-Language-Action (VTLA) models have demonstrated clear advantages over Vision-Language-Action (VLA) models in contact-rich manipulation. However, developing VTLA models is severely constrained by the massive amounts of vision-tactile data and computational resources required. To address this bottleneck, we propose VT-Bridge, a lightweight residual adaptation strategy that bridges pretrained foundation VLAs to VTLAs. Rather than training a VTLA model from scratch or modifying the original architecture of a pretrained VLA, VT-Bridge employs an identical lightweight residual-adapter architecture across VLA backbones and uses backbone-specific weights to refine actions at the robot execution frequency. This design substantially lowers the data and training barriers. Specifically, it requires up to 50 vision-tactile demonstrations per task to fine-tune a VLA backbone and train a 0.98M-parameter residual adapter. Experiments with three representative VLA backbones (<strong>π<sub>0</sub></strong>, <strong>π<sub>0.5</sub></strong>, and <strong>SmolVLA</strong>) across four contact-rich manipulation tasks further demonstrate its consistent effectiveness across VLA architectures. On average, VT-Bridge raises the task completion rate from <strong>11.7%</strong> with task-level VLA fine-tuning alone to <strong>62.9%</strong>. Together, these findings demonstrate the broad applicability, effectiveness, and accessibility of VT-Bridge for contact-rich manipulation.</p>
+      </div>
+    </section>
+
+    <section id="key-advantages" class="paper-section media-width" aria-labelledby="key-advantages-heading">
+      <h2 id="key-advantages-heading">Key advantages</h2>
+      <div class="advantages-columns">
+        <ul class="advantages-list">
+          <li><strong>Low Data Barrier:</strong> 50 vision-tactile demonstrations per task</li>
+          <li><strong>Run-time Reactivity (30Hz):</strong> Execution frequency contact dynamics regulation</li>
+          <li><strong>Substantial and Consistent Performance Gains:</strong> <strong>11.7%</strong> (VLA Fine-tune) → <strong>62.9%</strong> (VT-Bridge)</li>
+        </ul>
+        <ul class="advantages-list">
+          <li><strong>Low Training Barrier:</strong>
+            <ul>
+              <li>VLA Fine-tuning (4 x A100-SXM4 GPU, 8 h)</li>
+              <li>Residual Adapter Training (RTX 3090 GPU, 30 min)</li>
+              <li>0.98M-parameter residual adapter (inference time: 0.7 ms)</li>
+            </ul>
+          </li>
+          <li><strong>Pretrained VLAs Reuse and Compatibility:</strong> π<sub>0</sub> &amp; π<sub>0.5</sub> &amp; SmolVLA</li>
+        </ul>
+      </div>
+      <div class="advantages-performance">
+        <figure class="advantages-results">
+          <p class="chart-heading">Task completion rate <span>(%)</span></p>
+          <ul class="chart-legend" aria-label="Chart legend">
+            <li><span class="chart-swatch chart-baseline" aria-hidden="true"></span>Fine-tuned</li>
+            <li><span class="chart-swatch chart-touch" aria-hidden="true"></span>VLA-Touch</li>
+            <li><span class="chart-swatch chart-bridge" aria-hidden="true"></span>VT-Bridge</li>
+          </ul>
+          <svg class="completion-chart" viewBox="0 0 600 300" role="img" aria-labelledby="completion-chart-title completion-chart-desc">
+            <title id="completion-chart-title">Task completion rates across VLA backbones</title>
+            <desc id="completion-chart-desc">For fine-tuned VLA, VLA-Touch, and VT-Bridge respectively: π₀ achieves 6.3%, 13.8%, and 65.0%; π₀.₅ achieves 22.5%, 20.0%, and 68.8%; SmolVLA achieves 6.3%, 7.5%, and 55.0%.</desc>
+            <g class="chart-grid" aria-hidden="true">
+              <path d="M50 22H580 M50 70H580 M50 118H580 M50 166H580 M50 214H580"/>
+              <path class="chart-axis" d="M50 262H580"/>
+            </g>
+            <g class="chart-ticks" text-anchor="end" aria-hidden="true">
+              <text x="39" y="27">100</text><text x="39" y="75">80</text>
+              <text x="39" y="123">60</text><text x="39" y="171">40</text>
+              <text x="39" y="219">20</text><text x="39" y="267">0</text>
+            </g>
+            <g aria-hidden="true">
+              <rect class="chart-baseline" x="94" y="246.88" width="32" height="15.12" rx="3"><title>π₀ · Fine-tuned: 6.3%</title></rect>
+              <rect class="chart-touch" x="134" y="228.88" width="32" height="33.12" rx="3"><title>π₀ · VLA-Touch: 13.8%</title></rect>
+              <rect class="chart-bridge" x="174" y="106" width="32" height="156" rx="3"><title>π₀ · VT-Bridge: 65.0%</title></rect>
+              <rect class="chart-baseline" x="266" y="208" width="32" height="54" rx="3"><title>π₀.₅ · Fine-tuned: 22.5%</title></rect>
+              <rect class="chart-touch" x="306" y="214" width="32" height="48" rx="3"><title>π₀.₅ · VLA-Touch: 20.0%</title></rect>
+              <rect class="chart-bridge" x="346" y="96.88" width="32" height="165.12" rx="3"><title>π₀.₅ · VT-Bridge: 68.8%</title></rect>
+              <rect class="chart-baseline" x="438" y="246.88" width="32" height="15.12" rx="3"><title>SmolVLA · Fine-tuned: 6.3%</title></rect>
+              <rect class="chart-touch" x="478" y="244" width="32" height="18" rx="3"><title>SmolVLA · VLA-Touch: 7.5%</title></rect>
+              <rect class="chart-bridge" x="518" y="130" width="32" height="132" rx="3"><title>SmolVLA · VT-Bridge: 55.0%</title></rect>
+            </g>
+            <g class="chart-values" text-anchor="middle" aria-hidden="true">
+              <text x="110" y="237.88">6.3</text><text x="150" y="219.88">13.8</text><text class="chart-best" x="190" y="97">65.0</text>
+              <text x="282" y="199">22.5</text><text x="322" y="205">20.0</text><text class="chart-best" x="362" y="87.88">68.8</text>
+              <text x="454" y="237.88">6.3</text><text x="494" y="235">7.5</text><text class="chart-best" x="534" y="121">55.0</text>
+            </g>
+            <g class="chart-labels" text-anchor="middle" aria-hidden="true">
+              <text x="150" y="290">π₀</text><text x="322" y="290">π₀.₅</text><text x="494" y="290">SmolVLA</text>
+            </g>
+          </svg>
+          <figcaption>Figure 1: Average strict success rates across VLA backbones and real-world contact-rich manipulation tasks.</figcaption>
+        </figure>
+        <nav class="performance-links" aria-labelledby="performance-links-heading">
+          <h3 id="performance-links-heading">Watch performance</h3>
+          <a class="performance-link" href="#experiment-videos" data-video-backbone="pi0"><span>π<sub>0</sub> videos</span><span aria-hidden="true">↓</span></a>
+          <a class="performance-link" href="#experiment-videos" data-video-backbone="pi05"><span>π<sub>0.5</sub> videos</span><span aria-hidden="true">↓</span></a>
+          <a class="performance-link" href="#experiment-videos" data-video-backbone="smolvla"><span>SmolVLA videos</span><span aria-hidden="true">↓</span></a>
+        </nav>
+      </div>
+    </section>
+
+    <section id="method" class="paper-section media-width">
+      <h2>Methods</h2>
+      <figure class="method-overview">
+        <a href="assets/overview_fig.png" target="_blank" rel="noopener noreferrer" aria-label="Open the full-size VT-Bridge overview image">
+          <img src="assets/overview_fig.png" width="4866" height="2773" loading="lazy" alt="VT-Bridge overview: a pretrained VLA predicts action chunks, while action and tactile Transformer encoders feed a residual action head that refines robot commands at 30 Hz.">
+        </a>
+        <figcaption>Figure 2: Overview of VT-Bridge, a resource-efficient approach for bridging pretrained VLAs to VTLAs. It refines VLA-predicted actions using tactile feedback at the robot execution frequency. The residual-adapter architecture is applicable to different VLA backbones, with only its weights trained separately for each backbone.</figcaption>
+      </figure>
+      <div class="paper-copy prose method-details">
+        <h3>Low-frequency Pretrained VLA Backbone</h3>
+        <p>The pretrained VLA backbone provides general-purpose visual-language understanding and guides the robot to complete the target manipulation task. Given the current observation <math><mi mathvariant="bold">o</mi></math> and language instruction <math><mi mathvariant="bold">l</mi></math>, the VLA policy <math><msup><mi>π</mi><mtext>VLA</mtext></msup></math> predicts an action chunk:</p>
+        <div class="method-equation"><math aria-label="The VLA predicts action chunk A given observation o and instruction l"><mrow><mi mathvariant="bold">A</mi><mo>∼</mo><msup><mi>π</mi><mtext>VLA</mtext></msup><mo>(</mo><mo>·</mo><mo>∣</mo><mi mathvariant="bold">o</mi><mo>,</mo><mi mathvariant="bold">l</mi><mo>)</mo><mo>,</mo></mrow></math></div>
+        <p>where <span class="action-chunk-definition" role="math" aria-label="A equals the sequence a subscript 1, a subscript 2, through a subscript H"><b>A</b> = [<b>a</b><sub>1</sub>, <b>a</b><sub>2</sub>, …, <b>a</b><sub><i>H</i></sub>]</span> contains <math><mi>H</mi></math> future actions.</p>
+        <h3>High-Frequency Residual Adapter</h3>
+        <p><strong>Encode the intended motion once:</strong> The action transformer encoder processes the embedded action chunk and produces an action feature <math><msup><mi mathvariant="bold">z</mi><mi>a</mi></msup></math> that represents the VLA’s coarse motion intention and the overall action trend within the chunk. This feature is computed once and reused throughout chunk execution.</p>
+        <p><strong>Encode contact feature at each step:</strong> A force transformer encodes the <math><mi>n</mi></math> most recent observations into <math><msubsup><mi mathvariant="bold">z</mi><mi>t</mi><mi>f</mi></msubsup></math>. Here, it utilizes end-effector external force for Cartesian actions, or external joint torques for joint-space actions. </p>
+        <div class="method-equation"><math aria-label="F subscript t is the recent force window ending at the current step t"><mrow><msub><mi mathvariant="bold">F</mi><mi>t</mi></msub><mo>=</mo><mo>[</mo><msub><mi mathvariant="bold">f</mi><mrow><mi>t</mi><mo>−</mo><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mi mathvariant="bold">f</mi><mi>t</mi></msub><mo>]</mo><mo>.</mo></mrow></math></div>
+        <p><strong>Residual action prediction:</strong> The encoded action feature <math><msup><mi mathvariant="bold">z</mi><mi>a</mi></msup></math> and force feature <math><msubsup><mi mathvariant="bold">z</mi><mi>t</mi><mi>f</mi></msubsup></math> are then concatenated and passed to a multilayer perceptron decoder to predict the residual action.</p>
+        <div class="method-equation"><math aria-label="The MLP predicts a residual from the concatenated action and force features"><mrow><msubsup><mi mathvariant="bold">a</mi><mi>t</mi><mtext>res</mtext></msubsup><mo>=</mo><mi mathvariant="normal">MLP</mi><mo>(</mo><mo>[</mo><msup><mi mathvariant="bold">z</mi><mi>a</mi></msup><mo>;</mo><msubsup><mi mathvariant="bold">z</mi><mi>t</mi><mi>f</mi></msubsup><mo>]</mo><mo>)</mo><mo>.</mo></mrow></math></div>
+        <p><strong>Adaptation before execution:</strong> The predicted residual action <math><msubsup><mi mathvariant="bold">a</mi><mi>t</mi><mtext>res</mtext></msubsup></math> is then added to the corresponding nominal VLA action <math><msub><mi mathvariant="bold">a</mi><mi>t</mi></msub></math>, yielding the adapted action <math><msubsup><mi mathvariant="bold">a</mi><mi>t</mi><mtext>exe</mtext></msubsup></math> that is sent to the robot for execution.</p>
+        <div class="method-equation"><math aria-label="The executed command equals the nominal VLA action plus the residual"><mrow><msubsup><mi mathvariant="bold">a</mi><mi>t</mi><mtext>exe</mtext></msubsup><mo>=</mo><msub><mi mathvariant="bold">a</mi><mi>t</mi></msub><mo>+</mo><msubsup><mi mathvariant="bold">a</mi><mi>t</mi><mtext>res</mtext></msubsup><mo>.</mo></mrow></math></div>
+        <h3>Training Process</h3>
+        <p>We first fine-tune the VLA with LoRA, then freeze it and train the residual adapter. The target is the demonstrated <em>desired command</em> minus the aligned VLA prediction.</p>
+        <div class="method-equation"><math aria-label="During training the residual target equals the demonstrated desired command minus the aligned VLA prediction"><mrow><msubsup><mi mathvariant="bold">a</mi><mi>k</mi><mtext>res</mtext></msubsup><mo>=</mo><msubsup><mi mathvariant="bold">a</mi><mi>k</mi><mtext>desired</mtext></msubsup><mo>−</mo><msub><mi mathvariant="bold">a</mi><mi>k</mi></msub><mo>.</mo></mrow></math></div>
+        <p>Non-contact samples receive a zero residual target to preserve VLA's motion in free space.</p>
+        <h3>Inference and Execution</h3>
+        <p>During deployment, the VLA backbone and residual adapter share the same GPU and operate in a temporally interleaved manner. At the beginning of each cycle, the VLA backbone predicts a new action chunk. Once the prediction is complete, the backbone becomes idle, and the system enters the adaptation-and-execution loop. This loop continues until all actions in the predicted chunk have been executed. The residual adapter then pauses, and the VLA backbone is invoked to predict the next action chunk. In this manner, the two inference processes do not overlap and therefore do not contend for GPU computation.</p>
+        <figure class="paper-figure inference-execution">
+          <img src="assets/inference_execution.png" width="1011" height="486" loading="lazy" alt="Observation, inference, and execution timeline: VLA inference alternates with residual-adapter inference, while robot execution proceeds during residual adaptation.">
+          <figcaption>Figure 3: Temporal scheduling of the VLA backbone, residual adapter, and robot executor.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="experiments" class="paper-section experiments media-width">
+      <h2>Experiments</h2>
+      <p class="section-intro reading-copy">We evaluate VT-Bridge with three VLA backbones: π<sub>0</sub>, π<sub>0.5</sub>, and SmolVLA. For each backbone, we compare our method against its task-specific fine-tuned version without tactile adaptation. We also compare against VLA-Touch, a representative VTLA method that builds on a pretrained VLA backbone.</p>
+      <figure class="paper-figure task-overview">
+        <a href="assets/task_overview.png">
+          <img src="assets/task_overview.png" width="3611" height="2041" alt="Initial states, loose success, and strict success for Pump Bottle, Clean Whiteboard, Insert Plug, and Flip Rocker Switch." loading="lazy">
+        </a>
+        <figcaption>Figure 4: Overview of contact-rich manipulation tasks, showing representative initial states and examples satisfying the loose and strict success criteria.</figcaption>
+      </figure>
+      <p class="section-intro reading-copy">Each method is evaluated in 20 independent trials per task for each backbone. To better characterize the last-inch bottleneck between geometric near-success and functional task completion, we define two success criteria for each task. Loose success indicates that the robot reaches a geometrically valid near-success state, while strict success requires full functional task completion.</p>
+      <div id="experiment-videos" data-video-gallery="experiments"><p class="gallery-fallback"><a href="video-library.html">Browse the recordings.</a></p></div>
+      <div id="experiment-results" class="results-block">
+        <h3>Results</h3>
+        <h4>Overall Performance on Contact-Rich Manipulation</h4>
+        <p class="results-discussion">VT-Bridge achieves the highest strict success rate in every task–backbone combination. Across the three VLA backbones, it increases the average strict success rate from <strong>11.7% to 62.9%</strong> compared with directly fine-tuning the backbones, demonstrating consistent benefits across contact-rich manipulation tasks.</p>
+        <div class="table-scroll" role="region" aria-labelledby="strict-caption" tabindex="0"><table class="paper-results" id="strict-results"><caption id="strict-caption">Table I . Strict Success Rate (%)</caption><colgroup><col class="backbone-column"><col class="method-column"><col class="task-column" span="4"><col class="average-column"></colgroup><thead><tr><th scope="col">Backbone</th><th scope="col">Method</th><th scope="col">Pump Bottle</th><th scope="col">Clean Whiteboard</th><th scope="col">Insert Plug</th><th scope="col">Flip Rocker Switch</th><th scope="col">Avg.</th></tr></thead>
+<tbody>
+<tr>
+<th scope="rowgroup" rowspan="3">π₀</th>
+<th scope="row" class="method-cell">Fine-tuned</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">5.0</span> <span class="trial-count">(1/20)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">20.0</span> <span class="trial-count">(4/20)</span></td>
+<td><span class="result-value">6.3</span></td></tr>
+<tr>
+<th scope="row" class="method-cell">VLA-Touch</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">5.0</span> <span class="trial-count">(1/20)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">50.0</span> <span class="trial-count">(10/20)</span></td>
+<td><span class="result-value">13.8</span></td></tr>
+<tr class="ours-row">
+<th scope="row" class="method-cell">VT-Bridge (ours)</th>
+<td><span class="result-value">85.0</span> <span class="trial-count">(17/20)</span></td>
+<td><span class="result-value">20.0</span> <span class="trial-count">(4/20)</span></td>
+<td><span class="result-value">70.0</span> <span class="trial-count">(14/20)</span></td>
+<td><span class="result-value">85.0</span> <span class="trial-count">(17/20)</span></td>
+<td><span class="result-value">65.0</span></td></tr>
+</tbody>
+<tbody>
+<tr>
+<th scope="rowgroup" rowspan="3">π₀.₅</th>
+<th scope="row" class="method-cell">Fine-tuned</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">35.0</span> <span class="trial-count">(7/20)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">55.0</span> <span class="trial-count">(11/20)</span></td>
+<td><span class="result-value">22.5</span></td></tr>
+<tr>
+<th scope="row" class="method-cell">VLA-Touch</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">20.0</span> <span class="trial-count">(4/20)</span></td>
+<td><span class="result-value">5.0</span> <span class="trial-count">(1/20)</span></td>
+<td><span class="result-value">55.0</span> <span class="trial-count">(11/20)</span></td>
+<td><span class="result-value">20.0</span></td></tr>
+<tr class="ours-row">
+<th scope="row" class="method-cell">VT-Bridge (ours)</th>
+<td><span class="result-value">90.0</span> <span class="trial-count">(18/20)</span></td>
+<td><span class="result-value">40.0</span> <span class="trial-count">(8/20)</span></td>
+<td><span class="result-value">70.0</span> <span class="trial-count">(14/20)</span></td>
+<td><span class="result-value">75.0</span> <span class="trial-count">(15/20)</span></td>
+<td><span class="result-value">68.8</span></td></tr>
+</tbody>
+<tbody>
+<tr>
+<th scope="rowgroup" rowspan="3">SmolVLA</th>
+<th scope="row" class="method-cell">Fine-tuned</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">10.0</span> <span class="trial-count">(2/20)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">15.0</span> <span class="trial-count">(3/20)</span></td>
+<td><span class="result-value">6.3</span></td></tr>
+<tr>
+<th scope="row" class="method-cell">VLA-Touch</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">5.0</span> <span class="trial-count">(1/20)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">25.0</span> <span class="trial-count">(5/20)</span></td>
+<td><span class="result-value">7.5</span></td></tr>
+<tr class="ours-row">
+<th scope="row" class="method-cell">VT-Bridge (ours)</th>
+<td><span class="result-value">70.0</span> <span class="trial-count">(14/20)</span></td>
+<td><span class="result-value">45.0</span> <span class="trial-count">(9/20)</span></td>
+<td><span class="result-value">65.0</span> <span class="trial-count">(13/20)</span></td>
+<td><span class="result-value">40.0</span> <span class="trial-count">(8/20)</span></td>
+<td><span class="result-value">55.0</span></td></tr>
+</tbody>
+</table></div>
+        <h4 class="content-heading">Last-Inch Bottleneck in Contact-Rich Manipulation</h4>
+        <p class="results-discussion">Existing VLA models still struggle with the last inch of contact-rich tasks. As shown in the video, even after task-specific fine-tuning, these models often achieve geometrical near-success without functional task completion. For example, the robot can partially insert the plug into the socket but fails to fully seat it. Similarly, it can accurately reach and press the pump head, but cannot depress it far enough to dispense the liquid. This gap between geometrical near-success and functional completion constitutes the last-inch bottleneck.</p>
+        <p class="results-discussion">To directly quantify a model’s ability to overcome the last-inch bottleneck, we report the conditional completion rate, defined as the proportion of geometric near-success cases that are converted into functional task completions. On Pump Bottle, none of the baseline–backbone combinations convert geometrical near-success into functional completion, while VT-Bridge achieves an average conditional completion rate of 90.6%. On Insert Plug, VT-Bridge achieves 85.9%, while fine-tuned VLAs remain at 0% across all three backbones. On average, VT-Bridge improves this rate by <strong>58.8</strong> percentage points over fine-tuned VLA models, demonstrating a substantially stronger ability to bridge this gap.</p>
+        <div class="table-scroll" role="region" aria-labelledby="conditional-caption" tabindex="0"><table class="paper-results" id="conditional-results"><caption id="conditional-caption">Table II · Conditional Completion Rate (%)</caption><colgroup><col class="backbone-column"><col class="method-column"><col class="task-column" span="4"><col class="average-column"></colgroup><thead><tr><th scope="col">Backbone</th><th scope="col">Method</th><th scope="col">Pump Bottle</th><th scope="col">Clean Whiteboard</th><th scope="col">Insert Plug</th><th scope="col">Flip Rocker Switch</th><th scope="col">Avg.</th></tr></thead>
+<tbody>
+<tr>
+<th scope="rowgroup" rowspan="3">π₀</th>
+<th scope="row" class="method-cell">Fine-tuned</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/19)</span></td>
+<td><span class="result-value">5.3</span> <span class="trial-count">(1/19)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/13)</span></td>
+<td><span class="result-value">23.5</span> <span class="trial-count">(4/17)</span></td>
+<td><span class="result-value">7.2</span></td></tr>
+<tr>
+<th scope="row" class="method-cell">VLA-Touch</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/5)</span></td>
+<td><span class="result-value">5.9</span> <span class="trial-count">(1/17)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/16)</span></td>
+<td><span class="result-value">66.7</span> <span class="trial-count">(10/15)</span></td>
+<td><span class="result-value">18.1</span></td></tr>
+<tr class="ours-row">
+<th scope="row" class="method-cell">VT-Bridge (ours)</th>
+<td><span class="result-value">89.5</span> <span class="trial-count">(17/19)</span></td>
+<td><span class="result-value">20.0</span> <span class="trial-count">(4/20)</span></td>
+<td><span class="result-value">93.3</span> <span class="trial-count">(14/15)</span></td>
+<td><span class="result-value">100.0</span> <span class="trial-count">(17/17)</span></td>
+<td><span class="result-value">75.7</span></td></tr>
+</tbody>
+<tbody>
+<tr>
+<th scope="rowgroup" rowspan="3">π₀.₅</th>
+<th scope="row" class="method-cell">Fine-tuned</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/20)</span></td>
+<td><span class="result-value">35.0</span> <span class="trial-count">(7/20)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/16)</span></td>
+<td class="best-value"><span class="result-value">100.0</span> <span class="trial-count">(11/11)</span></td>
+<td><span class="result-value">33.8</span></td></tr>
+<tr>
+<th scope="row" class="method-cell">VLA-Touch</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/10)</span></td>
+<td><span class="result-value">20.0</span> <span class="trial-count">(4/20)</span></td>
+<td><span class="result-value">6.3</span> <span class="trial-count">(1/16)</span></td>
+<td><span class="result-value">84.6</span> <span class="trial-count">(11/13)</span></td>
+<td><span class="result-value">27.7</span></td></tr>
+<tr class="ours-row">
+<th scope="row" class="method-cell">VT-Bridge (ours)</th>
+<td><span class="result-value">94.7</span> <span class="trial-count">(18/19)</span></td>
+<td><span class="result-value">40.0</span> <span class="trial-count">(8/20)</span></td>
+<td><span class="result-value">77.8</span> <span class="trial-count">(14/18)</span></td>
+<td><span class="result-value">100.0</span> <span class="trial-count">(15/15)</span></td>
+<td><span class="result-value">78.1</span></td></tr>
+</tbody>
+<tbody>
+<tr>
+<th scope="rowgroup" rowspan="3">SmolVLA</th>
+<th scope="row" class="method-cell">Fine-tuned</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/19)</span></td>
+<td><span class="result-value">10.5</span> <span class="trial-count">(2/19)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/8)</span></td>
+<td><span class="result-value">16.7</span> <span class="trial-count">(3/18)</span></td>
+<td><span class="result-value">6.8</span></td></tr>
+<tr>
+<th scope="row" class="method-cell">VLA-Touch</th>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/4)</span></td>
+<td><span class="result-value">6.3</span> <span class="trial-count">(1/16)</span></td>
+<td><span class="result-value">0.0</span> <span class="trial-count">(0/10)</span></td>
+<td><span class="result-value">29.4</span> <span class="trial-count">(5/17)</span></td>
+<td><span class="result-value">8.9</span></td></tr>
+<tr class="ours-row">
+<th scope="row" class="method-cell">VT-Bridge (ours)</th>
+<td><span class="result-value">87.5</span> <span class="trial-count">(14/16)</span></td>
+<td><span class="result-value">45.0</span> <span class="trial-count">(9/20)</span></td>
+<td><span class="result-value">86.7</span> <span class="trial-count">(13/15)</span></td>
+<td><span class="result-value">61.5</span> <span class="trial-count">(8/13)</span></td>
+<td><span class="result-value">70.2</span></td></tr>
+</tbody>
+</table></div>
+      </div>
+    </section>
+
+    <section id="analysis" class="paper-section media-width">
+      <h2>Ablations</h2>
+      <p class="section-intro reading-copy"><strong>Residual target construction: desired vs. executed poses.</strong> We compare residual targets constructed from the desired poses recorded in the demonstrations with those constructed from the corresponding executed poses, while keeping all other settings unchanged. The paper reports that using desired poses increases average strict success from <strong>12.1% to 62.9%</strong>.</p>
+      <figure class="paper-figure ablation-chart">
+        <p class="ablation-chart-heading">Strict success rate <span>(%)</span></p>
+        <ul class="chart-legend" aria-label="VLA backbones and residual targets">
+          <li><span class="chart-swatch ablation-backbone-neutral" aria-hidden="true"></span><span>π<sub>0</sub></span></li>
+          <li><span class="chart-swatch chart-touch" aria-hidden="true"></span><span>π<sub>0.5</sub></span></li>
+          <li><span class="chart-swatch chart-bridge" aria-hidden="true"></span>SmolVLA</li>
+          <li><span class="ablation-target-swatch" aria-hidden="true"></span>Desired-Pose (Ours)</li>
+          <li><span class="ablation-target-swatch is-hatched" aria-hidden="true"></span>Executed-Pose (Ablation)</li>
+        </ul>
+        <div class="ablation-chart-scroll" role="region" aria-label="Residual target comparison chart" tabindex="0">
+          <svg class="ablation-plot" viewBox="0 0 1000 410" role="img" aria-labelledby="ablation-chart-title ablation-chart-desc">
+            <title id="ablation-chart-title">Ablation of residual target construction</title>
+            <desc id="ablation-chart-desc">Strict success rates in percent, listed as desired-pose versus executed-pose for each backbone. Pump Bottle: π₀ 85 versus 15, π₀.₅ 90 versus 0, SmolVLA 70 versus 0. Clean Whiteboard: π₀ 20 versus 0, π₀.₅ 40 versus 5, SmolVLA 45 versus 15. Insert Plug: π₀ 70 versus 0, π₀.₅ 70 versus 0, SmolVLA 65 versus 0. Flip Rocker Switch: π₀ 85 versus 35, π₀.₅ 75 versus 55, SmolVLA 40 versus 20.</desc>
+            <defs>
+              <pattern id="ablation-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                <rect width="7" height="7" fill="#fff" fill-opacity=".18"/>
+                <path d="M0 0V7" stroke="#203c40" stroke-width="2"/>
+              </pattern>
+            </defs>
+            <g class="chart-grid" aria-hidden="true">
+              <path d="M52 284H984"/>
+              <path d="M52 228H984"/>
+              <path d="M52 172H984"/>
+              <path d="M52 116H984"/>
+              <path d="M52 60H984"/>
+              <path class="chart-axis" d="M52 340H984"/>
+            </g>
+            <g class="chart-ticks" text-anchor="end" aria-hidden="true">
+              <text x="40" y="345">0</text>
+              <text x="40" y="289">20</text>
+              <text x="40" y="233">40</text>
+              <text x="40" y="177">60</text>
+              <text x="40" y="121">80</text>
+              <text x="40" y="65">100</text>
+            </g>
+            <g class="ablation-task" data-task="Pump Bottle" aria-hidden="true">
+              <g data-backbone="π₀" data-desired="85" data-executed="15">
+                <title>Pump Bottle · π₀: Desired-Pose 85%; Executed-Pose 15%</title>
+                <rect class="ablation-desired" x="91" y="102" width="42" height="238" rx="3" fill="#7b9093"/>
+                <rect class="ablation-executed" x="100.5" y="298" width="23" height="42" fill="url(#ablation-hatch)" stroke="#203c40" stroke-width="1"/>
+                <text class="ablation-value" x="112" y="92" text-anchor="middle">85</text>
+              </g>
+              <g data-backbone="π₀.₅" data-desired="90" data-executed="0">
+                <title>Pump Bottle · π₀.₅: Desired-Pose 90%; Executed-Pose 0%</title>
+                <rect class="ablation-desired" x="145" y="88" width="42" height="252" rx="3" fill="#087f8c"/>
+                <text class="ablation-value" x="166" y="78" text-anchor="middle">90</text>
+              </g>
+              <g data-backbone="SmolVLA" data-desired="70" data-executed="0">
+                <title>Pump Bottle · SmolVLA: Desired-Pose 70%; Executed-Pose 0%</title>
+                <rect class="ablation-desired" x="199" y="144" width="42" height="196" rx="3" fill="#d45b45"/>
+                <text class="ablation-value" x="220" y="134" text-anchor="middle">70</text>
+              </g>
+              <text class="ablation-task-label" x="166" y="377" text-anchor="middle">Pump Bottle</text>
+            </g>
+            <g class="ablation-task" data-task="Clean Whiteboard" aria-hidden="true">
+              <g data-backbone="π₀" data-desired="20" data-executed="0">
+                <title>Clean Whiteboard · π₀: Desired-Pose 20%; Executed-Pose 0%</title>
+                <rect class="ablation-desired" x="323" y="284" width="42" height="56" rx="3" fill="#7b9093"/>
+                <text class="ablation-value" x="344" y="274" text-anchor="middle">20</text>
+              </g>
+              <g data-backbone="π₀.₅" data-desired="40" data-executed="5">
+                <title>Clean Whiteboard · π₀.₅: Desired-Pose 40%; Executed-Pose 5%</title>
+                <rect class="ablation-desired" x="377" y="228" width="42" height="112" rx="3" fill="#087f8c"/>
+                <rect class="ablation-executed" x="386.5" y="326" width="23" height="14" fill="url(#ablation-hatch)" stroke="#203c40" stroke-width="1"/>
+                <text class="ablation-value" x="398" y="218" text-anchor="middle">40</text>
+              </g>
+              <g data-backbone="SmolVLA" data-desired="45" data-executed="15">
+                <title>Clean Whiteboard · SmolVLA: Desired-Pose 45%; Executed-Pose 15%</title>
+                <rect class="ablation-desired" x="431" y="214" width="42" height="126" rx="3" fill="#d45b45"/>
+                <rect class="ablation-executed" x="440.5" y="298" width="23" height="42" fill="url(#ablation-hatch)" stroke="#203c40" stroke-width="1"/>
+                <text class="ablation-value" x="452" y="204" text-anchor="middle">45</text>
+              </g>
+              <text class="ablation-task-label" x="398" y="377" text-anchor="middle">Clean Whiteboard</text>
+            </g>
+            <g class="ablation-task" data-task="Insert Plug" aria-hidden="true">
+              <g data-backbone="π₀" data-desired="70" data-executed="0">
+                <title>Insert Plug · π₀: Desired-Pose 70%; Executed-Pose 0%</title>
+                <rect class="ablation-desired" x="555" y="144" width="42" height="196" rx="3" fill="#7b9093"/>
+                <text class="ablation-value" x="576" y="134" text-anchor="middle">70</text>
+              </g>
+              <g data-backbone="π₀.₅" data-desired="70" data-executed="0">
+                <title>Insert Plug · π₀.₅: Desired-Pose 70%; Executed-Pose 0%</title>
+                <rect class="ablation-desired" x="609" y="144" width="42" height="196" rx="3" fill="#087f8c"/>
+                <text class="ablation-value" x="630" y="134" text-anchor="middle">70</text>
+              </g>
+              <g data-backbone="SmolVLA" data-desired="65" data-executed="0">
+                <title>Insert Plug · SmolVLA: Desired-Pose 65%; Executed-Pose 0%</title>
+                <rect class="ablation-desired" x="663" y="158" width="42" height="182" rx="3" fill="#d45b45"/>
+                <text class="ablation-value" x="684" y="148" text-anchor="middle">65</text>
+              </g>
+              <text class="ablation-task-label" x="630" y="377" text-anchor="middle">Insert Plug</text>
+            </g>
+            <g class="ablation-task" data-task="Flip Rocker Switch" aria-hidden="true">
+              <g data-backbone="π₀" data-desired="85" data-executed="35">
+                <title>Flip Rocker Switch · π₀: Desired-Pose 85%; Executed-Pose 35%</title>
+                <rect class="ablation-desired" x="787" y="102" width="42" height="238" rx="3" fill="#7b9093"/>
+                <rect class="ablation-executed" x="796.5" y="242" width="23" height="98" fill="url(#ablation-hatch)" stroke="#203c40" stroke-width="1"/>
+                <text class="ablation-value" x="808" y="92" text-anchor="middle">85</text>
+              </g>
+              <g data-backbone="π₀.₅" data-desired="75" data-executed="55">
+                <title>Flip Rocker Switch · π₀.₅: Desired-Pose 75%; Executed-Pose 55%</title>
+                <rect class="ablation-desired" x="841" y="130" width="42" height="210" rx="3" fill="#087f8c"/>
+                <rect class="ablation-executed" x="850.5" y="186" width="23" height="154" fill="url(#ablation-hatch)" stroke="#203c40" stroke-width="1"/>
+                <text class="ablation-value" x="862" y="120" text-anchor="middle">75</text>
+              </g>
+              <g data-backbone="SmolVLA" data-desired="40" data-executed="20">
+                <title>Flip Rocker Switch · SmolVLA: Desired-Pose 40%; Executed-Pose 20%</title>
+                <rect class="ablation-desired" x="895" y="228" width="42" height="112" rx="3" fill="#d45b45"/>
+                <rect class="ablation-executed" x="904.5" y="284" width="23" height="56" fill="url(#ablation-hatch)" stroke="#203c40" stroke-width="1"/>
+                <text class="ablation-value" x="916" y="218" text-anchor="middle">40</text>
+              </g>
+              <text class="ablation-task-label" x="862" y="377" text-anchor="middle">Flip Rocker Switch</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>Figure 5: Ablation of residual target construction. Strict success rates obtained using desired-pose (ours) and executed-pose (ablation) to construct the residual dataset.</figcaption>
+      </figure>
+      <div data-video-gallery="ablations"><p class="gallery-fallback"><a href="video-library.html">Browse the ablation recordings.</a></p></div>
+      <div class="detailed-analysis">
+        <h3>Position and force analysis</h3>
+        <p class="section-intro reading-copy">To support safe physical interaction, we use impedance control throughout our experiments. In tasks requiring high interaction forces, controller compliance creates a pronounced offset between the desired and executed poses. Constructing residual targets from the desired poses explicitly incorporates this force-related offset into the training signal, allowing the robot to generate the required contact force without increasing the controller stiffness. Although higher stiffness could reduce this offset, it would also increase the risk of excessive interaction forces. By contrast, our design improves task reliability while maintaining safe physical interaction.</p>
+
+
+      <article class="experiment" aria-labelledby="ablation-insert-plug">
+        <h4 class="analysis-task-title" id="ablation-insert-plug">Insert Plug</h4>
+        <div class="comparison-grid two-columns">
+          <figure>
+            <h5>Desired-Pose (Ours)</h5>
+            <video playsinline preload="none" width="870" height="1064"
+                   aria-label="VT-Bridge plug insertion video" poster="assets/videos/insert-plug/vtbridge_insert_plug_ours.jpg" data-src="assets/videos/insert-plug/vtbridge_insert_plug_ours.mp4">
+              <a href="assets/videos/insert-plug/vtbridge_insert_plug_ours.mp4">Download the VT-Bridge plug insertion video.</a>
+            </video>
+            <noscript><p><a href="assets/videos/insert-plug/vtbridge_insert_plug_ours.mp4">Open video</a></p></noscript>
+          </figure>
+          <figure>
+            <h5>Executed-Pose (Ablation)</h5>
+            <video playsinline preload="none" width="870" height="1064"
+                   aria-label="Plug insertion ablation video" poster="assets/videos/insert-plug/ablation_vtbridge_insert_plug.jpg" data-src="assets/videos/insert-plug/ablation_vtbridge_insert_plug.mp4">
+              <a href="assets/videos/insert-plug/ablation_vtbridge_insert_plug.mp4">Download the plug insertion ablation video.</a>
+            </video>
+            <noscript><p><a href="assets/videos/insert-plug/ablation_vtbridge_insert_plug.mp4">Open video</a></p></noscript>
+          </figure>
+        </div>
+      </article>
+
+      <article class="experiment" aria-labelledby="ablation-pump-bottle">
+        <h4 class="analysis-task-title" id="ablation-pump-bottle">Pump Bottle</h4>
+        <div class="comparison-grid two-columns">
+          <figure>
+            <h5>Desired-Pose (Ours)</h5>
+            <video playsinline preload="none" width="870" height="1064"
+                   aria-label="VT-Bridge pump bottle video" poster="assets/videos/pump-bottle/ours_vtbridge_pump.jpg" data-src="assets/videos/pump-bottle/ours_vtbridge_pump.mp4">
+              <a href="assets/videos/pump-bottle/ours_vtbridge_pump.mp4">Download the VT-Bridge pump bottle video.</a>
+            </video>
+            <noscript><p><a href="assets/videos/pump-bottle/ours_vtbridge_pump.mp4">Open video</a></p></noscript>
+          </figure>
+          <figure>
+            <h5>Executed-Pose (Ablation)</h5>
+            <video playsinline preload="none" width="870" height="1064"
+                   aria-label="Pump bottle ablation video" poster="assets/videos/pump-bottle/ablation_vtbridge_pump.jpg" data-src="assets/videos/pump-bottle/ablation_vtbridge_pump.mp4">
+              <a href="assets/videos/pump-bottle/ablation_vtbridge_pump.mp4">Download the pump bottle ablation video.</a>
+            </video>
+            <noscript><p><a href="assets/videos/pump-bottle/ablation_vtbridge_pump.mp4">Open video</a></p></noscript>
+          </figure>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <!-- Hidden during review; remove the hidden attribute when ready to display the citation. -->
+    <section id="citation" class="paper-section citation-section reading-width" hidden>
+      <h2>Citation</h2>
+      <div class="citation-toolbar"><span>BibTeX · placeholder information</span></div>
+      <pre><code id="bibtex">@misc{PLACEHOLDER_CITATION_KEY,
+  title  = {PLACEHOLDER_PAPER_TITLE},
+  author = {PLACEHOLDER_AUTHORS},
+  year   = {PLACEHOLDER_YEAR},
+  url    = {PLACEHOLDER_PAPER_URL}
+}</code></pre>
+      <noscript><p class="table-note">Select the BibTeX text and copy it using your browser’s Copy command.</p></noscript>
+    </section>
+    <footer class="site-footer media-width">
+      <span class="footer-wordmark"><span class="title-vision">V</span><span class="title-tactile">T</span>-Bridge</span>
+      <div class="footer-actions">
+        <a href="#main">Back to top <span aria-hidden="true">↑</span></a>
+        <a id="visit-counter" class="visit-counter" title="Shared visit count is available on the published website.">
+          <span id="visit-counter-status">Visits —</span>
+          <img id="visit-counter-badge" alt="Total site visits, counted by Hits.sh" referrerpolicy="no-referrer" hidden>
+        </a>
+      </div>
+    </footer>
   </main>
 </body>
 </html>

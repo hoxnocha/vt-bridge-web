@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="915pt" height="435pt" viewBox="0.00 0.00 914.60 435.14" role="img" aria-labelledby="architecture-title architecture-desc">
+<title id="architecture-title">VT-Bridge neural architecture</title><desc id="architecture-desc">Two Transformer encoders map the VLA action chunk and recent force window to features. Their concatenation enters an MLP residual head. A skip connection adds the nominal action to the predicted residual. The action feature is cached; the force feature is updated at each execution step. Vector cells and module shapes are schematic, not layer counts or hidden dimensions.</desc><g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(10.8 424.34)">
+<title>VTBridge</title>
+<polygon fill="white" stroke="transparent" points="-10.8,10.8 -10.8,-424.34 903.8,-424.34 903.8,10.8 -10.8,10.8" />
+<g id="clust1" class="cluster">
+<title>cluster_adapter</title>
+<path fill="white" stroke="#b8c4d0" stroke-width="1.2" stroke-dasharray="5,2" d="M167,-48.54C167,-48.54 649,-48.54 649,-48.54 655,-48.54 661,-54.54 661,-60.54 661,-60.54 661,-298.54 661,-298.54 661,-304.54 655,-310.54 649,-310.54 649,-310.54 167,-310.54 167,-310.54 161,-310.54 155,-304.54 155,-298.54 155,-298.54 155,-60.54 155,-60.54 155,-54.54 161,-48.54 167,-48.54" />
+<text text-anchor="start" x="184.5" y="-294.74" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="16.00">Residual adapter</text>
+<text text-anchor="start" x="335.5" y="-294.74" font-family="Helvetica,sans-Serif" font-size="16.00"> </text>
+<text text-anchor="start" x="341.5" y="-294.74" font-family="Times New Roman" font-size="16.00">π</text>
+<text text-anchor="start" x="351.5" y="-299.54" font-family="Times New Roman" font-size="10.4">res</text>
+<text text-anchor="start" x="163" y="-281.94" font-family="Helvetica,sans-Serif" font-size="12.00">0.98M parameters · backbone-specific</text>
+</g>
+
+<g id="node1" class="node">
+<title>obs</title>
+<text text-anchor="start" x="20.5" y="-397.54" font-family="Helvetica,sans-Serif" font-size="15.00" fill="#253344">Observation </text>
+<text text-anchor="start" x="117.5" y="-397.54" font-family="Times New Roman" font-style="italic" font-size="15.00" fill="#253344">o</text>
+<text text-anchor="start" x="28.5" y="-372.54" font-family="Helvetica,sans-Serif" font-size="15.00" fill="#253344">Instruction </text>
+<text text-anchor="start" x="114.5" y="-372.54" font-family="Times New Roman" font-style="italic" font-size="15.00" fill="#253344">l</text>
+</g>
+
+<g id="node2" class="node">
+<title>vla</title>
+<polygon fill="#e8edf3" stroke="#67788b" stroke-width="1.25" points="147,-339.04 4,-339.04 0,-335.04 0,-276.04 143,-276.04 147,-280.04 147,-339.04" />
+<polyline fill="none" stroke="#67788b" stroke-width="1.25" points="143,-335.04 0,-335.04 " />
+<polyline fill="none" stroke="#67788b" stroke-width="1.25" points="143,-335.04 143,-276.04 " />
+<polyline fill="none" stroke="#67788b" stroke-width="1.25" points="143,-335.04 147,-339.04 " />
+<text text-anchor="start" x="9" y="-321.04" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="15.00" fill="#253344">Pretrained VLA</text>
+<text text-anchor="start" x="48" y="-300.44" font-family="Times New Roman" font-size="22.00" fill="#253344">π</text>
+<text text-anchor="start" x="62" y="-307.04" font-family="Times New Roman" font-size="14.3" fill="#253344">VLA</text>
+<text text-anchor="start" x="10.5" y="-286.44" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#253344">Fine-tuned backbone</text>
+</g>
+
+<g id="edge6" class="edge">
+<title>obs:s-&gt;vla:n</title>
+<path fill="none" stroke="#64758a" stroke-width="1.5" d="M73.5,-349.23C73.5,-355.19 73.5,-361.54 73.5,-361.54" />
+<polygon fill="#64758a" stroke="#64758a" stroke-width="1.5" points="75.78,-345.54 73.5,-339.04 71.23,-345.54 75.78,-345.54" />
+</g>
+
+<g id="node3" class="node">
+<title>chunk</title>
+<text text-anchor="start" x="10.5" y="-239.54" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="15.00" fill="#253344">Action chunk A</text>
+<polygon fill="#cddff3" stroke="transparent" points="11.5,-197.54 11.5,-224.54 40.5,-224.54 40.5,-197.54 11.5,-197.54" />
+<polygon fill="none" stroke="#527caa" points="11.5,-197.54 11.5,-224.54 40.5,-224.54 40.5,-197.54 11.5,-197.54" />
+<text text-anchor="start" x="16.5" y="-208.54" font-family="Times New Roman" font-size="15.00" fill="#253344">a</text>
+<text text-anchor="start" x="26.5" y="-204.79" font-family="Times New Roman" font-size="9.75" fill="#253344">1</text>
+<polygon fill="#cddff3" stroke="transparent" points="43.5,-197.54 43.5,-224.54 72.5,-224.54 72.5,-197.54 43.5,-197.54" />
+<polygon fill="none" stroke="#527caa" points="43.5,-197.54 43.5,-224.54 72.5,-224.54 72.5,-197.54 43.5,-197.54" />
+<text text-anchor="start" x="48.5" y="-208.54" font-family="Times New Roman" font-size="15.00" fill="#253344">a</text>
+<text text-anchor="start" x="58.5" y="-204.79" font-family="Times New Roman" font-size="9.75" fill="#253344">2</text>
+<polygon fill="#cddff3" stroke="transparent" points="75.5,-197.54 75.5,-224.54 104.5,-224.54 104.5,-197.54 75.5,-197.54" />
+<polygon fill="none" stroke="#527caa" points="75.5,-197.54 75.5,-224.54 104.5,-224.54 104.5,-197.54 75.5,-197.54" />
+<text text-anchor="start" x="82" y="-207.54" font-family="Times New Roman" font-size="15.00" fill="#253344">…</text>
+<polygon fill="#cddff3" stroke="transparent" points="107.5,-197.54 107.5,-224.54 136.5,-224.54 136.5,-197.54 107.5,-197.54" />
+<polygon fill="none" stroke="#527caa" points="107.5,-197.54 107.5,-224.54 136.5,-224.54 136.5,-197.54 107.5,-197.54" />
+<text text-anchor="start" x="112" y="-208.54" font-family="Times New Roman" font-size="15.00" fill="#253344">a</text>
+<text text-anchor="start" x="122" y="-204.79" font-family="Times New Roman" font-size="9.75" fill="#253344">H</text>
+<text text-anchor="start" x="53" y="-178.94" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#596574">H = 50</text>
+</g>
+
+<g id="edge7" class="edge">
+<title>vla:s-&gt;chunk:n</title>
+<path fill="none" stroke="#64758a" stroke-width="1.5" d="M73.5,-264.26C73.5,-270.01 73.5,-276.04 73.5,-276.04" />
+<polygon fill="#64758a" stroke="#64758a" stroke-width="1.5" points="75.78,-260.54 73.5,-254.04 71.23,-260.54 75.78,-260.54" />
+</g>
+
+<g id="node4" class="node">
+<title>force</title>
+<text text-anchor="start" x="7.5" y="-135.54" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="15.00" fill="#253344">Force window F</text>
+<polygon fill="#f4dcc2" stroke="transparent" points="10.5,-93.54 10.5,-120.54 69.5,-120.54 69.5,-93.54 10.5,-93.54" />
+<polygon fill="none" stroke="#b38251" points="10.5,-93.54 10.5,-120.54 69.5,-120.54 69.5,-93.54 10.5,-93.54" />
+<text text-anchor="start" x="15.5" y="-104.54" font-family="Times New Roman" font-size="15.00" fill="#253344">f</text>
+<text text-anchor="start" x="21.5" y="-100.79" font-family="Times New Roman" font-size="9.75" fill="#253344">t−n+1</text>
+<polygon fill="#f4dcc2" stroke="transparent" points="72.5,-93.54 72.5,-120.54 103.5,-120.54 103.5,-93.54 72.5,-93.54" />
+<polygon fill="none" stroke="#b38251" points="72.5,-93.54 72.5,-120.54 103.5,-120.54 103.5,-93.54 72.5,-93.54" />
+<text text-anchor="start" x="80" y="-103.54" font-family="Times New Roman" font-size="15.00" fill="#253344">…</text>
+<polygon fill="#f4dcc2" stroke="transparent" points="106.5,-93.54 106.5,-120.54 137.5,-120.54 137.5,-93.54 106.5,-93.54" />
+<polygon fill="none" stroke="#b38251" points="106.5,-93.54 106.5,-120.54 137.5,-120.54 137.5,-93.54 106.5,-93.54" />
+<text text-anchor="start" x="116" y="-104.54" font-family="Times New Roman" font-size="15.00" fill="#253344">f</text>
+<text text-anchor="start" x="122" y="-100.79" font-family="Times New Roman" font-size="9.75" fill="#253344">t</text>
+<text text-anchor="start" x="54" y="-74.94" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#596574">n = 50</text>
+</g>
+
+
+<g id="node5" class="node">
+<title>action_encoder</title>
+<polygon fill="#cddff3" stroke="#527caa" stroke-width="1.25" points="304,-241.04 177,-241.04 173,-237.04 173,-186.04 300,-186.04 304,-190.04 304,-241.04" />
+<polyline fill="none" stroke="#527caa" stroke-width="1.25" points="300,-237.04 173,-237.04 " />
+<polyline fill="none" stroke="#527caa" stroke-width="1.25" points="300,-237.04 300,-186.04 " />
+<polyline fill="none" stroke="#527caa" stroke-width="1.25" points="300,-237.04 304,-241.04 " />
+<text text-anchor="start" x="186.5" y="-223.04" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="15.00" fill="#253344">Transformer</text>
+<text text-anchor="start" x="182" y="-208.04" font-family="Helvetica,sans-Serif" font-size="15.00" fill="#253344">Action encoder</text>
+<text text-anchor="start" x="195" y="-196.24" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#253344">Once per chunk</text>
+</g>
+
+<g id="edge8" class="edge">
+<title>chunk-&gt;action_encoder</title>
+<path fill="none" stroke="#527caa" stroke-width="1.5" d="M142.21,-213.54C150.14,-213.54 158.24,-213.54 166.22,-213.54" />
+<polygon fill="#527caa" stroke="#527caa" stroke-width="1.5" points="166.38,-215.81 172.88,-213.54 166.38,-211.26 166.38,-215.81" />
+</g>
+
+<g id="node12" class="node">
+<title>add</title>
+<ellipse fill="none" stroke="#67788b" stroke-width="1.25" cx="754.5" cy="-161.54" rx="14.5" ry="14.5" />
+<text text-anchor="middle" x="754.5" y="-155.94" font-family="Helvetica,sans-Serif" font-size="22.00" fill="#253344">+</text>
+</g>
+
+<g id="edge14" class="edge">
+<title>chunk:n-&gt;add:n</title>
+<path fill="none" stroke="#527caa" stroke-width="1.8" d="M136.5,-211.04 H145.75 V-324.54 H754.5 V-182.04" />
+<polygon fill="#527caa" stroke="#527caa" stroke-width="1.8" points="752.0,-183.04 754.5,-176.04 757.0,-183.04" />
+<text text-anchor="start" x="450.125" y="-330.54" font-family="Times New Roman" font-size="17.00" fill="#405267">a</text>
+<text text-anchor="start" x="461.125" y="-326.29" font-family="Times New Roman" font-size="11.05" fill="#405267">t</text>
+</g>
+
+<g id="node6" class="node">
+<title>force_encoder</title>
+<polygon fill="#f4dcc2" stroke="#b38251" stroke-width="1.25" points="303.5,-136.04 177.5,-136.04 173.5,-132.04 173.5,-81.04 299.5,-81.04 303.5,-85.04 303.5,-136.04" />
+<polyline fill="none" stroke="#b38251" stroke-width="1.25" points="299.5,-132.04 173.5,-132.04 " />
+<polyline fill="none" stroke="#b38251" stroke-width="1.25" points="299.5,-132.04 299.5,-81.04 " />
+<polyline fill="none" stroke="#b38251" stroke-width="1.25" points="299.5,-132.04 303.5,-136.04 " />
+<text text-anchor="start" x="186.5" y="-118.04" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="15.00" fill="#253344">Transformer</text>
+<text text-anchor="start" x="185.5" y="-103.04" font-family="Helvetica,sans-Serif" font-size="15.00" fill="#253344">Force encoder</text>
+<text text-anchor="start" x="182.5" y="-91.24" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#253344">Each execution step</text>
+</g>
+
+<g id="edge9" class="edge">
+<title>force-&gt;force_encoder</title>
+<path fill="none" stroke="#b38251" stroke-width="1.5" d="M143.15,-109.12C150.97,-109.07 158.95,-109.02 166.79,-108.97" />
+<polygon fill="#b38251" stroke="#b38251" stroke-width="1.5" points="166.86,-111.25 173.34,-108.93 166.83,-106.7 166.86,-111.25" />
+</g>
+
+<g id="node7" class="node">
+<title>za</title>
+<text text-anchor="start" x="344" y="-240.14" font-family="Times New Roman" font-size="18.00" fill="#253344">z</text>
+<text text-anchor="start" x="354" y="-245.54" font-family="Times New Roman" font-size="11.7" fill="#253344">a</text>
+<polygon fill="#cddff3" stroke="transparent" points="335,-194.54 335,-226.54 347,-226.54 347,-194.54 335,-194.54" />
+<polygon fill="none" stroke="#527caa" points="335,-194.54 335,-226.54 347,-226.54 347,-194.54 335,-194.54" />
+<polygon fill="#cddff3" stroke="transparent" points="348,-194.54 348,-226.54 360,-226.54 360,-194.54 348,-194.54" />
+<polygon fill="none" stroke="#527caa" points="348,-194.54 348,-226.54 360,-226.54 360,-194.54 348,-194.54" />
+<polygon fill="#cddff3" stroke="transparent" points="361,-194.54 361,-226.54 373,-226.54 373,-194.54 361,-194.54" />
+<polygon fill="none" stroke="#527caa" points="361,-194.54 361,-226.54 373,-226.54 373,-194.54 361,-194.54" />
+<text text-anchor="start" x="334" y="-178.74" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#596574">cached</text>
+</g>
+
+<g id="edge1" class="edge">
+<title>action_encoder:e-&gt;za:w</title>
+<path fill="none" stroke="#527caa" stroke-width="1.5" d="M304,-213.54C304,-213.54 315.74,-213.99 323.44,-214.28" />
+<polygon fill="#527caa" stroke="#527caa" stroke-width="1.5" points="323.42,-216.56 330,-214.54 323.59,-212.01 323.42,-216.56" />
+</g>
+
+<g id="node8" class="node">
+<title>zf</title>
+<text text-anchor="start" x="342.5" y="-134.14" font-family="Times New Roman" font-size="18.00" fill="#253344">z</text>
+<text text-anchor="start" x="352.5" y="-129.64" font-family="Times New Roman" font-size="11.7" fill="#253344">t</text>
+<text text-anchor="start" x="352.5" y="-139.54" font-family="Times New Roman" font-size="11.7" fill="#253344">f</text>
+<polygon fill="#f4dcc2" stroke="transparent" points="332,-88.54 332,-120.54 346,-120.54 346,-88.54 332,-88.54" />
+<polygon fill="none" stroke="#b38251" points="332,-88.54 332,-120.54 346,-120.54 346,-88.54 332,-88.54" />
+<polygon fill="#f4dcc2" stroke="transparent" points="347,-88.54 347,-120.54 361,-120.54 361,-88.54 347,-88.54" />
+<polygon fill="none" stroke="#b38251" points="347,-88.54 347,-120.54 361,-120.54 361,-88.54 347,-88.54" />
+<polygon fill="#f4dcc2" stroke="transparent" points="362,-88.54 362,-120.54 376,-120.54 376,-88.54 362,-88.54" />
+<polygon fill="none" stroke="#b38251" points="362,-88.54 362,-120.54 376,-120.54 376,-88.54 362,-88.54" />
+<text text-anchor="start" x="331" y="-72.74" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#596574">updated</text>
+</g>
+
+<g id="edge2" class="edge">
+<title>force_encoder:e-&gt;zf:w</title>
+<path fill="none" stroke="#b38251" stroke-width="1.5" d="M304,-108.54C304,-108.54 314.34,-108.54 321.44,-108.54" />
+<polygon fill="#b38251" stroke="#b38251" stroke-width="1.5" points="321.5,-110.81 328,-108.54 321.5,-106.26 321.5,-110.81" />
+</g>
+
+<g id="node9" class="node">
+<title>fusion</title>
+<text text-anchor="start" x="409.5" y="-186.14" font-family="Times New Roman" font-size="18.00" fill="#253344">[zᵃ ; zᶠₜ]</text>
+<polygon fill="#cddff3" stroke="transparent" points="408.5,-141.54 408.5,-173.54 419.5,-173.54 419.5,-141.54 408.5,-141.54" />
+<polygon fill="none" stroke="#8490a0" points="408.5,-141.54 408.5,-173.54 419.5,-173.54 419.5,-141.54 408.5,-141.54" />
+<polygon fill="#cddff3" stroke="transparent" points="420.5,-141.54 420.5,-173.54 431.5,-173.54 431.5,-141.54 420.5,-141.54" />
+<polygon fill="none" stroke="#8490a0" points="420.5,-141.54 420.5,-173.54 431.5,-173.54 431.5,-141.54 420.5,-141.54" />
+<polygon fill="#cddff3" stroke="transparent" points="432.5,-141.54 432.5,-173.54 443.5,-173.54 443.5,-141.54 432.5,-141.54" />
+<polygon fill="none" stroke="#8490a0" points="432.5,-141.54 432.5,-173.54 443.5,-173.54 443.5,-141.54 432.5,-141.54" />
+<polygon fill="#f4dcc2" stroke="transparent" points="444.5,-141.54 444.5,-173.54 455.5,-173.54 455.5,-141.54 444.5,-141.54" />
+<polygon fill="none" stroke="#8490a0" points="444.5,-141.54 444.5,-173.54 455.5,-173.54 455.5,-141.54 444.5,-141.54" />
+<polygon fill="#f4dcc2" stroke="transparent" points="456.5,-141.54 456.5,-173.54 467.5,-173.54 467.5,-141.54 456.5,-141.54" />
+<polygon fill="none" stroke="#8490a0" points="456.5,-141.54 456.5,-173.54 467.5,-173.54 467.5,-141.54 456.5,-141.54" />
+<polygon fill="#f4dcc2" stroke="transparent" points="468.5,-141.54 468.5,-173.54 479.5,-173.54 479.5,-141.54 468.5,-141.54" />
+<polygon fill="none" stroke="#8490a0" points="468.5,-141.54 468.5,-173.54 479.5,-173.54 479.5,-141.54 468.5,-141.54" />
+<text text-anchor="start" x="409" y="-125.74" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#596574">Concatenate</text>
+</g>
+
+<g id="edge3" class="edge">
+<title>za:e-&gt;fusion:w</title>
+<path fill="none" stroke="#527caa" stroke-width="1.5" d="M378,-214.54C378,-214.54 394.19,-181.54 401.02,-167.62" />
+<polygon fill="#527caa" stroke="#527caa" stroke-width="1.5" points="403.18,-168.37 404,-161.54 399.09,-166.37 403.18,-168.37" />
+</g>
+
+<g id="edge4" class="edge">
+<title>zf:e-&gt;fusion:w</title>
+<path fill="none" stroke="#b38251" stroke-width="1.5" d="M380,-108.54C380,-108.54 394.94,-141.54 401.25,-155.46" />
+<polygon fill="#b38251" stroke="#b38251" stroke-width="1.5" points="399.25,-156.55 404,-161.54 403.39,-154.68 399.25,-156.55" />
+</g>
+
+<g id="node10" class="node">
+<title>mlp</title>
+<polygon fill="#ded9ee" stroke="#897da6" stroke-width="1.25" points="507,-192.49 507,-130.58 643,-108.54 643,-214.54 507,-192.49" />
+<text text-anchor="start" x="556.5" y="-170.04" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="15.00" fill="#253344">MLP</text>
+<text text-anchor="start" x="550" y="-157.44" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#253344">Residual</text>
+<text text-anchor="start" x="559.5" y="-145.44" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#253344">head</text>
+</g>
+
+<g id="edge5" class="edge">
+<title>fusion:e-&gt;mlp:w</title>
+<path fill="none" stroke="#64758a" stroke-width="1.5" d="M483,-161.54C483,-161.54 493.34,-161.54 500.44,-161.54" />
+<polygon fill="#64758a" stroke="#64758a" stroke-width="1.5" points="500.5,-163.81 507,-161.54 500.5,-159.26 500.5,-163.81" />
+</g>
+
+<g id="node11" class="node">
+<title>residual</title>
+<text text-anchor="start" x="669" y="-157.54" font-family="Times New Roman" font-size="20.00" fill="#253344">a</text>
+<text text-anchor="start" x="682" y="-152.54" font-family="Times New Roman" font-size="13.0" fill="#253344">t</text>
+<text text-anchor="start" x="682" y="-163.54" font-family="Times New Roman" font-size="13.0" fill="#253344">res</text>
+</g>
+
+<g id="edge10" class="edge">
+<title>mlp-&gt;residual</title>
+<path fill="none" stroke="#64758a" stroke-width="1.5" d="M643.19,-161.54C649.75,-161.54 656.15,-161.54 662.02,-161.54" />
+<polygon fill="#64758a" stroke="#64758a" stroke-width="1.5" points="662.16,-163.81 668.66,-161.54 662.16,-159.26 662.16,-163.81" />
+</g>
+
+<g id="edge11" class="edge">
+<title>residual-&gt;add</title>
+<path fill="none" stroke="#64758a" stroke-width="1.5" d="M716.18,-161.54C721.78,-161.54 727.75,-161.54 733.22,-161.54" />
+<polygon fill="#64758a" stroke="#64758a" stroke-width="1.5" points="733.34,-163.81 739.84,-161.54 733.34,-159.26 733.34,-163.81" />
+</g>
+
+<g id="node13" class="node">
+<title>output</title>
+<text text-anchor="start" x="818" y="-162.54" font-family="Times New Roman" font-size="20.00" fill="#253344">a</text>
+<text text-anchor="start" x="831" y="-157.54" font-family="Times New Roman" font-size="13.0" fill="#253344">t</text>
+<text text-anchor="start" x="831" y="-168.54" font-family="Times New Roman" font-size="13.0" fill="#253344">exe</text>
+<text text-anchor="start" x="793" y="-148.94" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#253344">Robot command</text>
+</g>
+
+<g id="edge12" class="edge">
+<title>add-&gt;output</title>
+<path fill="none" stroke="#64758a" stroke-width="1.5" d="M769.02,-161.54C774,-161.54 780.02,-161.54 786.42,-161.54" />
+<polygon fill="#64758a" stroke="#64758a" stroke-width="1.5" points="786.44,-163.81 792.94,-161.54 786.44,-159.26 786.44,-163.81" />
+</g>
+</g>
+</svg>
