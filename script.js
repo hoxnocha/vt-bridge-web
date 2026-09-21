@@ -3,7 +3,7 @@
 // A regular script keeps the complete gallery usable when index.html is opened from disk.
 (() => {
   // Keep media URLs off the player until an explicit click (including on file://).
-  function prepareVideo(video, src) {
+  function prepareVideo(video, src, startTime = 0) {
     const player = element("div", "on-demand-player");
     video.replaceWith(player);
     player.append(video);
@@ -17,23 +17,41 @@
     error.hidden = true;
     error.setAttribute("role", "status");
     const link = element("a", "", "Open the video");
-    link.href = src;
+    link.href = startTime > 0 ? `${src}#t=${startTime}` : src;
     error.append(link);
     player.append(button);
     player.after(error);
     video.addEventListener("error", () => {
       if (video.hasAttribute("src")) error.hidden = false;
     });
+    video.addEventListener("ended", () => {
+      const restoreFocus = document.activeElement === video;
+      video.pause();
+      video.controls = false;
+      video.removeAttribute("src");
+      video.load(); // Restore the poster and release the completed recording.
+      error.hidden = true;
+      button.hidden = false;
+      if (restoreFocus) button.focus({ preventScroll: true });
+    });
     button.addEventListener("click", () => {
+      if (button.hidden) return;
       button.hidden = true;
+      error.hidden = true;
       video.controls = true;
+      if (startTime > 0) {
+        video.addEventListener("loadedmetadata", () => {
+          // Skip this recording's model-loading pause without trimming the file.
+          if (video.isConnected && startTime < video.duration) video.currentTime = startTime;
+        }, { once: true });
+      }
       video.src = src;
       video.focus({ preventScroll: true });
       // Native controls remain available if the browser declines playback.
       video.play().catch(() => {
         if (video.isConnected && video.error) error.hidden = false;
       });
-    }, { once: true });
+    });
   }
 
   for (const video of document.querySelectorAll("video[data-src]")) {
@@ -105,13 +123,14 @@
     video.dataset.method = clip.method;
     video.dataset.view = clip.view;
     video.dataset.backbone = clip.backbone;
+    video.dataset.startTime = clip.startTime ?? 0;
     video.setAttribute("aria-label", `${taskLabel}, ${backboneLabel}, ${label}, ${cameraLabels[clip.view]}`);
     const fallback = element("a", "", "Open this recording");
-    fallback.href = clip.src;
+    fallback.href = clip.startTime > 0 ? `${clip.src}#t=${clip.startTime}` : clip.src;
     video.append(fallback);
 
     figure.append(video);
-    prepareVideo(video, clip.src);
+    prepareVideo(video, clip.src, clip.startTime);
     return figure;
   }
 
