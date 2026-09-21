@@ -38,12 +38,13 @@
   --accent: #326b96;
   --rule: #e2e7ec;
   --reading-width: 880px;
-  --media-width: 1120px;
+  --media-width: 100%;
 }
 * { box-sizing: border-box; }
 body { margin: 0; font-size: 16px; line-height: 1.65; }
 ::selection { background: #deebf5; color: #25374a; }
-main { padding: 0 28px; }
+/* Use 80% of the browser width; tablet and mobile gutters are set below. */
+main { padding: 0 10%; }
 .reading-width { width: 100%; max-width: var(--reading-width); margin-inline: auto; }
 .media-width { width: 100%; max-width: var(--media-width); margin-inline: auto; }
 /* All research sections share a left edge; prose stays within a readable measure. */
@@ -391,7 +392,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline-color:
 .site-nav {
   position: sticky; top: 0; z-index: 10;
   display: flex; align-items: center; justify-content: space-between; gap: 28px;
-  padding: 17px max(28px, calc((100% - 1120px) / 2));
+  padding: 17px 10%;
   border-bottom: 1px solid var(--rule);
   background: rgba(250, 250, 247, .96);
   backdrop-filter: blur(16px);
