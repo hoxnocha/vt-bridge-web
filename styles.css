@@ -57,6 +57,7 @@ a:hover { text-decoration: underline; }
 button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px solid #2675ab; outline-offset: 5px; }
 .skip-link { position: absolute; top: -80px; left: 20px; padding: 10px 16px; background: #fff; z-index: 2; }
 .skip-link:focus { top: 12px; }
+.mobile-view-note { display: none; }
 
 /* Centered paper masthead; the research media follows directly below. */
 .paper-header { max-width: var(--media-width); padding-top: 64px; text-align: center; }
@@ -557,45 +558,85 @@ figure.inference-execution > figcaption { text-align: center; }
   .paper-header { padding-top: 48px; }
   .advantages-list > li { padding: 18px; }
 }
-@media (max-width: 682px) {
-  html { scroll-padding-top: 116px; }
-  body { font-size: 18px; }
-  .site-nav { flex-direction: column; align-items: flex-start; gap: 7px; padding: 10px 20px; }
-  .nav-wordmark { font-size: 18px; }
-  .nav-links { width: 100%; overflow-x: auto; gap: 4px; scrollbar-width: none; }
-  .nav-links a { padding-inline: 8px; white-space: nowrap; font-size: 12px; }
-  .paper-header { padding-top: 38px; }
+/* Phone refinements are isolated here to preserve the desktop presentation. */
+@media screen and (max-width: 682px) {
+  html { zoom: 1; scroll-padding-top: 108px; }
+  body { font-size: 16px; line-height: 1.7; }
+  main { padding-inline: 16px; }
+  .site-nav { flex-direction: column; align-items: flex-start; gap: 4px; padding: 8px 16px; background: var(--paper); }
+  .nav-wordmark { font-size: 17px; line-height: 1.3; }
+  .nav-links { width: 100%; overflow-x: auto; gap: 2px; scrollbar-width: thin; scrollbar-color: #b9cfca transparent; }
+  .nav-links a { display: flex; align-items: center; flex-shrink: 0; min-height: 44px; padding: 8px; white-space: nowrap; font-size: 12px; }
+  .paper-header { padding-top: 28px; }
+  .mobile-view-note {
+    display: block; margin-bottom: 22px; padding: 10px 12px;
+    border: 1px solid var(--rule); border-radius: 7px; background: #f1f6f3;
+    color: var(--muted); font-size: 14px; line-height: 1.5; text-align: left;
+  }
+  .paper-header::before { inset-inline: -16px; }
   .hero-eyebrow { font-size: 10px; letter-spacing: .1em; gap: 6px 8px; margin-bottom: 14px; }
   .hero-eyebrow span + span::before { margin-right: 8px; }
-  .paper-title-name { margin-bottom: 17px; }
-  .paper-title-description { font-size: 28px; line-height: 1.4; }
-  .paper-links { display: flex; gap: 8px; }
-  .resource-link { padding-inline: 17px; }
-  .presentation-video { margin-top: 25px; }
+  .paper-title-name { font-size: clamp(48px, 13vw, 68px); margin-bottom: 14px; }
+  .paper-title-description { font-size: clamp(22px, 5.6vw, 28px); line-height: 1.35; }
+  .paper-title { margin-bottom: 18px; }
+  .authors { font-size: 15px; }
+  .paper-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 380px; margin: 20px auto 0; }
+  .resource-link { min-width: 0; min-height: 44px; padding: 9px 6px; gap: 6px; font-size: 14px; }
+  .resource-link svg { flex-shrink: 0; }
+  .presentation-video { margin-top: 18px; }
   .presentation-video video { min-height: 0; border-radius: 7px; }
-  .paper-section, #abstract { margin-top: 58px; }
+  .paper-section, #abstract { margin-top: 44px; }
   section.paper-section:not(#abstract) { padding-top: 28px; }
   section.paper-section > h2::before { top: -29px; }
-  h2 { font-size: 34px; margin-bottom: 25px; }
+  h2, #abstract > h2 { font-size: 30px; margin-bottom: 22px; }
+  h3 { font-size: 22px; }
 
-  #abstract > .prose { font-size: 19px; line-height: 1.8; hyphens: auto; }
+  #abstract > .prose { font-size: 16px; line-height: 1.75; hyphens: manual; }
+  #abstract > .prose, .method-details > p,
+  #experiments .reading-copy, #experiments .results-discussion, #analysis .reading-copy,
+  figure > figcaption:not(.chart-heading), #experiments figcaption, #analysis figcaption { text-align: left; }
+  .section-intro, .results-discussion, .prose { line-height: 1.75; overflow-wrap: break-word; }
+  figure > figcaption:not(.chart-heading) { padding-top: 12px; font-size: 14px; line-height: 1.65; }
   .advantages-columns { gap: 16px; }
+  .advantages-list { font-size: 16px; line-height: 1.7; }
+  .advantages-list > li > strong:first-child { font-size: 17px; }
   .advantages-results { width: 100%; }
+  .advantages-performance { gap: 22px; padding-block: 22px; }
+  .performance-links { width: 100%; max-width: 380px; }
+  .advantages-results .chart-heading, .ablation-chart-heading { font-size: 16px; }
+  .chart-legend { gap: 8px 14px; font-size: 12px; }
   .chart-ticks { font-size: 16px; }
   .chart-values { font-size: 18px; }
   .chart-labels { font-size: 20px; }
-  .advantages-list > li { padding: 17px 19px; }
+  .advantages-list > li { padding: 16px; }
   .method-details > h3 { font-size: 22px; }
 
   .method-equation { padding: 12px; }
+  .action-chunk-definition { max-width: 100%; overflow-x: auto; vertical-align: middle; }
   .inference-execution, .compact-figure { padding: 10px; }
-  .ablation-chart, .method-overview, .task-overview { padding: 20px 12px 16px; }
+  .task-overview { width: 100%; }
+  .ablation-chart, .method-overview, .task-overview { padding: 16px 10px; }
   .table-scroll { padding: 10px; }
-  .backbone-selector { padding: 14px; }
-  .backbone-selector .selector-options { flex-wrap: wrap; }
+  .table-scroll::before, .ablation-chart-scroll::before {
+    display: block; position: sticky; left: 0; width: fit-content; max-width: 100%;
+    margin-bottom: 10px; color: var(--muted); font-size: 12px; text-align: left;
+  }
+  .table-scroll::before { content: "Swipe to view the full table →"; }
+  .ablation-chart-scroll::before { content: "Swipe to view the full chart →"; }
+  .backbone-selector { padding: 12px; }
+  .backbone-selector .selector-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .backbone-selector .selector-choice span { min-width: 0; padding: 10px 4px; font-size: 16px; }
   .gallery-task-header { gap: 13px; }
-  .comparison-grid, .analysis-grid { gap: 24px; }
-  .site-footer { margin-top: 60px; gap: 20px; }
+  .gallery-task-heading h3 { font-size: 22px; }
+  .gallery-task-description { font-size: 15px; }
+  .camera-selector { width: 100%; }
+  .camera-selector .selector-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .camera-selector .selector-choice span { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 6px; text-align: center; font-size: 12px; }
+  .comparison-grid, .analysis-grid { gap: 20px; }
+  .gallery-video h4 { min-height: 44px; padding: 10px 12px; font-size: 14px; }
+  .site-footer { flex-direction: column; align-items: flex-start; margin-top: 44px; gap: 14px; }
+  .footer-actions { width: 100%; justify-content: space-between; gap: 12px; }
+  .footer-actions > a { display: inline-flex; align-items: center; min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
