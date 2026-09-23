@@ -1,72 +1,72 @@
-# VT-Bridge 项目网页
+# VT-Bridge Project Website
 
-这个仓库维护 VT-Bridge 的静态项目网页。研究代码在独立仓库中维护。
+This repository hosts the static project website for VT-Bridge. The research code is maintained in a separate repository.
 
-## 目录
+## Repository Structure
 
 ```text
 .
-├── index.html          # 项目主页、方法介绍和结果
-├── styles.css          # 页面样式与响应式布局
-├── script.js           # 视频选择、播放控制及引用复制
-├── video-data.js       # 视频展示所用的数据
-├── video-library.html  # 录制视频的备用索引页
-├── assets/             # 页面使用的图片、视频、字体和论文
-├── .nojekyll           # GitHub Pages 直接提供静态文件
+├── index.html          # Project homepage, method overview, and results
+├── styles.css          # Page styles and responsive layout
+├── script.js           # Video selection, playback controls, and citation copying
+├── video-data.js       # Data used by the video gallery
+├── video-library.html  # Alternative index of recorded videos
+├── assets/             # Images, videos, fonts, and papers used by the website
+├── .nojekyll           # Allows GitHub Pages to serve static files directly
 └── README.md
 ```
 
-## 本地预览
+## Local Preview
 
-直接用 Firefox 打开仓库根目录的 `index.html`。网页无需安装依赖或启动后端。
+Open `index.html` from the repository root directly in Firefox. No dependencies or backend server are required.
 
-如果需要通过本地 HTTP 地址检查页面，在仓库根目录执行：
+To preview the website over local HTTP, run the following command from the repository root:
 
 ```bash
 python3 tools/serve.py
 ```
 
-然后访问 `http://127.0.0.1:8000/`。
+Then visit `http://127.0.0.1:8000/`.
 
-该预览服务支持 HTTP Range 请求，让浏览器能够直接跳转到视频中的动作起点。可用 `--port 8001` 指定其他端口。
+The preview server supports HTTP Range requests, allowing the browser to seek directly to the start of the robot's motion in a video. Use `--port 8001` to specify a different port.
 
-## 更新页面
+## Updating the Website
 
-- 编辑 `index.html` 中的项目内容，编辑 `styles.css` 调整样式。
-- 媒体文件放在 `assets/` 中，保持相对路径。视频展示数据在 `video-data.js` 中。
-- 保留 `.nojekyll`，并在提交前检查页面、图片和视频能否正常打开。
-- 仓库只保存网页需要的文件；训练代码、模型权重和完整数据集单独管理。
+- Edit project content in `index.html` and adjust styles in `styles.css`.
+- Store media files in `assets/` and use relative paths. Video gallery data is defined in `video-data.js`.
+- Keep `.nojekyll` and check that pages, images, and videos load correctly before committing.
+- Store only files needed by the website in this repository. Manage training code, model weights, and full datasets separately.
 
-如果继续使用已有的 `project-page` 工作目录及其发布脚本，将生成的 `dist/` **内部文件**同步到此仓库根目录，不要再包一层 `vt-bridge-private/` 或 `dist/`。
+If you continue to use the existing `project-page` working directory and its publishing scripts, copy the **contents of the generated `dist/` directory** into this repository's root. Do not add an extra `vt-bridge-private/` or `dist/` directory level.
 
-## 视频按需加载
+## On-Demand Video Loading
 
-页面先显示封面，点击 Play video 后才把原始视频地址交给播放器。切换 backbone 或相机视角时，旧播放器会停止并释放资源，新选项仍需点击播放。实验、ablation 对比和额外分析录像使用相同逻辑；全部原始录像保持不变。
+The page initially displays a poster image and assigns the original video URL to the player only after the visitor clicks Play video. Switching the backbone or camera view stops the previous player and releases its resources; the newly selected video also requires a click to play. Experiment videos, ablation comparisons, and additional analysis recordings follow the same behavior. All original recordings remain unchanged.
 
-新增额外分析录像时，沿用 `index.html` 中的 `video[data-src]` 写法，提供封面和 `<noscript>` 直达链接；不要添加会提前加载的 `src` 或 `<source src>`。图库录像继续在 `video-data.js` 中配置。此功能减少访问时下载的视频量，不减少仓库或部署文件的总大小。
+When adding an additional analysis recording, follow the `video[data-src]` pattern in `index.html`, including a poster image and a direct link inside `<noscript>`. Do not add a `src` or `<source src>` that would load the video prematurely. Continue to configure gallery videos in `video-data.js`. This feature reduces the amount of video data downloaded during a visit, but does not reduce the total size of the repository or deployment files.
 
-图库中每个录像的 `startTime`（秒）记录机器人开始动作前的播放起点，已分别检查四个任务、三个 backbone、四种方法及两个相机视角，共 96 个录像。点击播放后，播放器在读取元数据时跳转到该时间，跳过开头的模型加载等待；原始 MP4、播放速度及完整时间轴保持不变，仍可手动回看开头。播放结束后恢复封面和 Play video 按钮，再次点击仍从该动作起点播放。任务起点包含夹爪最初的张开或闭合动作，即使机械臂尚未移动，也不能跳过。已重新检查所有录像，并在候选起点附近以 0.1 秒间隔检查夹爪特写，保留首次动作前的短暂余量；相机曝光变化不算任务动作。替换录像时需重新检查对应的 `startTime`，同时更新 `video-library.html` 中链接的 `#t=` 时间。
+Each gallery video's `startTime`, in seconds, marks a playback starting point just before the robot begins moving. These timestamps have been checked individually for four tasks, three backbones, four methods, and two camera views, covering 96 recordings. After the visitor clicks Play video, the player seeks to this timestamp when the metadata loads, skipping the initial wait for model loading. The original MP4 files, playback speed, and full timeline remain unchanged, and visitors can still seek back to the beginning manually. When playback ends, the poster image and Play video button return; clicking again starts playback from the same motion timestamp. The task onset includes the gripper's initial opening or closing motion, even if the robot arm has not yet moved. All recordings have been rechecked, including gripper close-ups at 0.1-second intervals around candidate starting points, with a short margin retained before the first movement. Camera exposure changes do not count as task motion. When replacing a recording, recheck its `startTime` and update the corresponding `#t=` timestamp in `video-library.html`.
 
 ## GitHub Pages
 
-网页文件位于 `main` 根目录。决定公开时，可在 GitHub 仓库的 **Settings → Pages** 中选择 **Deploy from a branch → main → / (root)**。
+The website files are located at the root of the `main` branch. When you are ready to publish the website, open **Settings → Pages** in the GitHub repository and select **Deploy from a branch → main → / (root)**.
 
-推送代码、仓库可见性和网站发布是不同操作；整理目录不会自动更改仓库可见性或启用 Pages。网站一旦配置为从 `main` 发布，后续推送到该分支会触发更新。
+Pushing code, changing repository visibility, and publishing the website are separate operations. Reorganizing the directory does not automatically change repository visibility or enable Pages. Once the website is configured to deploy from `main`, subsequent pushes to that branch trigger updates.
 
-当前页面中尚未补齐的项目元数据应根据论文和实际代码仓库填写。
+Any project metadata that is still missing from the page should be filled in based on the paper and the actual code repository.
 
-## 访问计数
+## Visit Counter
 
-页脚右侧使用 [Hits.sh](https://github.com/silentsoft/hits) 显示所有访问者共享的累计访问次数（并非独立访客人数）。网站通过 HTTPS 发布到 `*.github.io` 后自动启用，无需后端或 API 密钥；点击计数徽章可查看统计。计数从启用后开始，无法恢复此前的访问量。
+The right side of the footer uses [Hits.sh](https://github.com/silentsoft/hits) to display a cumulative visit count shared across all visitors. This is not a count of unique visitors. The counter is enabled automatically when the website is published over HTTPS on `*.github.io`; no backend or API key is required. Click the counter badge to view statistics. Counting begins when the feature is enabled, and earlier visits cannot be recovered.
 
-本地预览显示 `Visits —`，不向计数服务发送请求。统计标识使用发布页面的域名和路径，不包含查询参数或锚点；目录地址与 `index.html` 共用计数。若服务不可用，显示 `Visits unavailable`。如将来改用自定义域名，需更新 `script.js` 中的域名检查，并决定是否沿用原计数标识。
+Local previews display `Visits —` and do not send requests to the counting service. The counter identifier uses the published page's domain and path, excluding query parameters and fragments. A directory URL and its `index.html` URL share the same counter. If the service is unavailable, the page displays `Visits unavailable`. If you switch to a custom domain in the future, update the domain check in `script.js` and decide whether to retain the original counter identifier.
 
-## 方法架构图
+## Method Architecture Diagrams
 
-架构图由 Graphviz 生成。安装 Graphviz 后，在仓库根目录运行：
+The architecture diagrams are generated with Graphviz. After installing Graphviz, run the following command from the repository root:
 
 ```bash
 python3 tools/render_method_diagrams.py
 ```
 
-编辑脚本中的节点和连接可同步生成桌面与手机版的 `.gv` 源文件及 `.svg` 图片，输出在 `assets/diagrams/`。网页直接显示 SVG，浏览器无需安装 Graphviz。图中的特征小格是示意，不表示具体隐藏维度或网络层数；网络连接依据论文的方法部分。
+Edit the nodes and connections in the script to generate both desktop and mobile versions of the `.gv` source files and `.svg` images in `assets/diagrams/`. The website displays the SVG files directly, so visitors do not need Graphviz installed. The small feature cells in the diagrams are illustrative and do not represent specific hidden dimensions or numbers of network layers. Network connections follow the method section of the paper.
